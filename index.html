@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Análisis de Commits Git</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                <div>
+                    <h1>📊 Dashboard de Análisis de Commits</h1>
+                    <p class="subtitle">Análisis de Desarrollo del Proyecto</p>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button id="themeToggle" class="btn-theme" title="Cambiar tema día/noche">
+                        🌙
+                    </button>
+                    <button id="reloadData" class="btn-reload" title="Recargar datos desde output.json">
+                        🔄
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Filtros -->
+        <section class="filters-section">
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="developerFilter">👤 Desarrollador:</label>
+                    <select id="developerFilter">
+                        <option value="todos">Todos</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="monthFilter">📅 Mes:</label>
+                    <select id="monthFilter">
+                        <option value="todos">Todos</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="typeFilter">🏷️ Tipo:</label>
+                    <select id="typeFilter">
+                        <option value="todos">Todos</option>
+                        <option value="fix">Fix</option>
+                        <option value="feat">Feat</option>
+                        <option value="otros">Otros</option>
+                    </select>
+                </div>
+                
+                <button id="resetFilters" class="btn-reset">🔄 Restablecer</button>
+            </div>
+        </section>
+
+        <!-- Resumen General -->
+        <section class="summary-cards">
+            <div class="card">
+                <div class="card-icon">📝</div>
+                <div class="card-content">
+                    <h3 id="totalCommits">0</h3>
+                    <p>Total Commits</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">👥</div>
+                <div class="card-content">
+                    <h3 id="totalDevelopers">0</h3>
+                    <p>Desarrolladores</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">📅</div>
+                <div class="card-content">
+                    <h3 id="activeDays">0</h3>
+                    <p>Días de Desarrollo</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <div class="card-content">
+                    <h3 id="avgCommitsDay">0</h3>
+                    <p>Promedio/Día</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gráficos Principales -->
+        <section class="charts-grid">
+            <!-- Distribución por Desarrollador -->
+            <div class="chart-container">
+                <h2>👥 Distribución de Commits por Desarrollador</h2>
+                <canvas id="developerChart"></canvas>
+            </div>
+
+            <!-- Tipos de Commits -->
+            <div class="chart-container">
+                <h2>🏷️ Tipos de Commits</h2>
+                <canvas id="commitTypeChart"></canvas>
+            </div>
+
+            <!-- Actividad por Mes -->
+            <div class="chart-container full-width">
+                <h2>📈 Actividad Mensual</h2>
+                <canvas id="monthlyChart"></canvas>
+            </div>
+
+            <!-- Timeline de Actividad -->
+            <div class="chart-container full-width">
+                <h2>⏱️ Timeline de Actividad por Desarrollador</h2>
+                <canvas id="timelineChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Tabla de Desempeño por Desarrollador -->
+        <section class="performance-section">
+            <h2>🎯 Evaluación de Desempeño Individual</h2>
+            <div class="table-container">
+                <table id="performanceTable">
+                    <thead>
+                        <tr>
+                            <th>Desarrollador</th>
+                            <th>Total Commits</th>
+                            <th>% del Proyecto</th>
+                            <th>Fixes</th>
+                            <th>Features</th>
+                            <th>Otros</th>
+                            <th>Líneas Netas</th>
+                            <th>Primer Commit</th>
+                            <th>Último Commit</th>
+                            <th>Días Activos</th>
+                            <th>Promedio/Día</th>
+                        </tr>
+                    </thead>
+                    <tbody id="performanceTableBody">
+                        <!-- Se llenará dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Análisis Detallado por Desarrollador -->
+        <section class="developer-details" id="developerDetails">
+            <!-- Se llenará dinámicamente al seleccionar un desarrollador -->
+        </section>
+
+        <!-- Histórico de Commits -->
+        <section class="commits-history">
+            <h2>📜 Historial de Commits</h2>
+            <div class="search-box">
+                <input type="text" id="searchCommits" placeholder="🔍 Buscar en commits...">
+            </div>
+            <div id="commitsList" class="commits-list">
+                <!-- Se llenará dinámicamente -->
+            </div>
+            <div class="pagination">
+                <button id="prevPage" class="btn-pagination">← Anterior</button>
+                <span id="pageInfo">Página 1</span>
+                <button id="nextPage" class="btn-pagination">Siguiente →</button>
+            </div>
+        </section>
+
+        <footer>
+            <p>Dashboard de Análisis de Commits Git - Versión 2.0</p>
+            <p>Sistema con auto-normalización de emails duplicados</p>
+        </footer>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
